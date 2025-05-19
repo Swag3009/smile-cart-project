@@ -1,6 +1,5 @@
 import "./App.css";
-// eslint-disable-next-line import/extensions
-import logo from "./logo.svg";
+import logo from "./logo";
 
 const App = () => (
   <div className="App">
