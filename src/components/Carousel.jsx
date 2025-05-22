@@ -5,18 +5,14 @@ import { Button } from "neetoui";
 
 const Carousel = ({ imageUrls, title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const handleNext = () => {
-    const nextIndex = (currentIndex + 1) % imageUrls.length;
-    setCurrentIndex(nextIndex);
-  };
+  const handleNext = () =>
+    setCurrentIndex(prev => (prev + 1) % imageUrls.length);
 
-  const handlePrevious = () => {
-    const prevIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
-    setCurrentIndex(prevIndex);
-  };
+  const handlePrevious = () =>
+    setCurrentIndex(prev => (prev - 1 + imageUrls.length) % imageUrls.length);
 
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col items-center justify-center">
       <div className="flex items-center">
         <Button
           className="shrink-0 focus-within:ring-0"
@@ -36,7 +32,7 @@ const Carousel = ({ imageUrls, title }) => {
           onClick={handlePrevious}
         />
       </div>
-      <div className="mt-2 flex justify-center space-x-1">
+      <div className="mt-2 flex space-x-1">
         {imageUrls.map((_, index) => {
           const defaultClasses =
             "neeto-ui-border-black neeto-ui-rounded-full h-3 w-3 cursor-pointer border";
