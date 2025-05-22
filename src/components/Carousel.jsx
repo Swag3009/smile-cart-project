@@ -1,10 +1,16 @@
 // eslint-disable-next-line import/order
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Left, Right } from "neetoicons";
 import { Button } from "neetoui";
 
 const Carousel = ({ imageUrls, title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(handleNext, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleNext = () =>
     setCurrentIndex(prev => (prev + 1) % imageUrls.length);
 
