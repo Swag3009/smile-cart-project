@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import axios from "axios";
+import productApi from "apis/products";
 import { Typography, Spinner } from "neetoui";
 import { append, isNotNil } from "ramda";
 
@@ -11,10 +11,8 @@ const Product = () => {
   const [isLoading, setIsLoading] = useState(true);
   const fetchProduct = async () => {
     try {
-      const response = await axios(
-        "https://smile-cart-backend-staging.neetodeployapp.com/products/infinix-inbook-2"
-      );
-      setProduct(response.data);
+      const product = await productApi.show();
+      setProduct(product);
     } catch (error) {
       console.log("An error occured:", error);
     } finally {
@@ -26,14 +24,7 @@ const Product = () => {
     fetchProduct();
   }, []);
 
-  const {
-    name,
-    description,
-    mrp,
-    offer_price: offerPrice,
-    image_urls: imageUrls,
-    image_url: imageUrl,
-  } = product;
+  const { name, description, mrp, offerPrice, imageUrls, imageUrl } = product;
   const totalDiscounts = mrp - offerPrice;
   const discountPercentage = ((totalDiscounts / mrp) * 100).toFixed(1);
 
