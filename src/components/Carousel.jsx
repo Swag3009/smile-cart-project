@@ -1,21 +1,30 @@
 // eslint-disable-next-line import/order
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Left, Right } from "neetoicons";
 import { Button } from "neetoui";
 
 const Carousel = ({ imageUrls, title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(handleNext, 3000);
+  const timerRef = useRef(null);
 
-    return () => clearInterval(interval);
+  const resetTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(handleNext, 3000);
+  };
+
+  useEffect(() => {
+    timerRef.current = setInterval(handleNext, 3000);
+
+    return () => clearInterval(timerRef.current);
   }, []);
 
   const handleNext = () =>
     setCurrentIndex(prev => (prev + 1) % imageUrls.length);
 
-  const handlePrevious = () =>
+  const handlePrevious = () => {
     setCurrentIndex(prev => (prev - 1 + imageUrls.length) % imageUrls.length);
+    resetTimer();
+  };
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -24,7 +33,10 @@ const Carousel = ({ imageUrls, title }) => {
           className="shrink-0 focus-within:ring-0"
           icon={Left}
           style="text"
-          onClick={handleNext}
+          onClick={() => {
+            handleNext();
+            resetTimer();
+          }}
         />
         <img
           alt={title}
@@ -52,7 +64,10 @@ const Carousel = ({ imageUrls, title }) => {
             <span
               className={dotClassNames}
               key={index}
-              onClick={() => setCurrentIndex(index)}
+              onClick={() => {
+                setCurrentIndex(index);
+                resetTimer();
+              }}
             />
           );
         })}
