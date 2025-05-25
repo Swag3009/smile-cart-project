@@ -1,11 +1,18 @@
 // eslint-disable-next-line import/order
 import { useState, useEffect, useRef } from "react";
+import { useShowProduct } from "hooks/reactQuery/useProductsApi";
 import { Left, Right } from "neetoicons";
 import { Button } from "neetoui";
+import { append } from "ramda";
+import { useParams } from "react-router-dom";
 
-const Carousel = ({ imageUrls, title }) => {
+const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const timerRef = useRef(null);
+  const { slug } = useParams();
+  const { data: { imageUrl, imageUrls: partialImageUrls, title } = {} } =
+    useShowProduct(slug);
+  const imageUrls = append(imageUrl, partialImageUrls);
 
   const resetTimer = () => {
     clearInterval(timerRef.current);

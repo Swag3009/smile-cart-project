@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
-
-import productApi from "apis/products";
 import { Header, PageLoader, PageNotFound } from "components/commons";
 import AddToCart from "components/commons/AddToCart";
 import useSelectedQuantity from "components/hooks/useSelectedQuantity";
+import { useShowProduct } from "hooks/reactQuery/useProductsApi";
 import { Typography, Button } from "neetoui";
-import { append, isNotNil } from "ramda";
+import { isNotNil } from "ramda";
 import { useParams } from "react-router-dom";
 import routes from "src/route";
 
@@ -13,24 +11,8 @@ import Carousel from "./Carousel";
 
 const Product = () => {
   const { slug } = useParams();
+  const { data: product = {}, isLoading, isError } = useShowProduct(slug);
   const { selectedQuantity, setSelectedQuantity } = useSelectedQuantity(slug);
-  const [product, setProduct] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const fetchProduct = async () => {
-    try {
-      const product = await productApi.show(slug);
-      setProduct(product);
-    } catch {
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProduct();
-  }, []);
 
   const {
     name,
@@ -54,10 +36,7 @@ const Product = () => {
         <div className="w-2/5">
           <div className="flex justify-center gap-16">
             {isNotNil(imageUrls) ? (
-              <Carousel
-                imageUrls={append(imageUrl, imageUrls)}
-                title="Infinix Inbook"
-              />
+              <Carousel />
             ) : (
               <img alt={name} className="w-48" src={imageUrl} />
             )}
