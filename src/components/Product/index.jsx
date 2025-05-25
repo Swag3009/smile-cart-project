@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import productApi from "apis/products";
 import { Header, PageLoader, PageNotFound } from "components/commons";
+import AddToCart from "components/commons/AddToCart";
 import { Typography } from "neetoui";
 import { append, isNotNil } from "ramda";
 import { useParams } from "react-router-dom";
@@ -56,6 +57,7 @@ const Product = () => {
           <Typography>MRP: {mrp}</Typography>
           <Typography>Offer price: {offerPrice}</Typography>
           <Typography>{discountPercentage}% off</Typography>
+          <AddToCart {...{ slug }} />
         </div>
       </div>
     </div>
