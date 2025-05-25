@@ -19,9 +19,9 @@ const Cart = () => {
   const { t } = useTranslation();
   const { cartItems, setSelectedQuantity } = useCartItemsStore();
   const slugs = useCartItemsStore(store => keys(store.cartItems));
+  const { data: products = [], isLoading } = useFetchCartProducts(slugs);
   const totalMrp = cartTotalOf(products, MRP);
   const totalOfferPrice = cartTotalOf(products, OFFER_PRICE);
-  const { data: products = [], isLoading } = useFetchCartProducts(slugs);
   const fetchCartProducts = async () => {
     try {
       const responses = await Promise.all(
