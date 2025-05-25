@@ -7,6 +7,14 @@
   "offerPrice": "Total offer price: <span>${{offerPrice}}</span>",
   "title": "Smile Cart",
   "pageTitle": "{{title}} | Smile Cart",
+  "confirmOrder": "Confirm order",
+  "error": {
+    "noInternetConnection": "No Internet Connection",
+    "networkError": "Network Error"
+  },
+  "order": {
+    "successfullyPlaced": "Order has been successfully placed"
+  },
   "cart": {
     "title": "My cart"
   },
